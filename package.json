@@ -1,11 +1,14 @@
 {
   "name": "github-release-downloads",
   "version": "0.0.1",
-  "private": true,
-  "author": "Rancher Labs, Inc.",
+  "repository": "https://github.com/vincent99/github-release-downloads",
+  "author": "Vincent Fiduccia <vincent@rancher.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "optimist": "^0.6.1",
     "request": "^2.88.0"
+  },
+  "bin": {
+    "github-release-downloads": "./index.js"
   }
 }
