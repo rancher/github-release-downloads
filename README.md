@@ -2,7 +2,7 @@
 Get the number of downloads of release artifacts for a GitHub repo
 
 # Install
-npm install -g github-release-downloads
+`npm install -g github-release-downloads`
 
 # Usage
 ```
