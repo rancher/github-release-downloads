@@ -123,7 +123,7 @@ function req(method, url, cb) {
   };
 
   if ( args.username && args.token ) {
-    headers['authorization'] = 'Basic ' + Buffer.from(`${args.username}:${args.token}`).toString('base64');
+    opt.headers['authorization'] = 'Basic ' + Buffer.from(`${args.username}:${args.token}`).toString('base64');
   }
 
   request(opt, cb);
