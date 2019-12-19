@@ -16,5 +16,6 @@ Options:
   --prerelease, --all, --prereleases  Include prereleases
   --minor                             Combine equivalent minor versions, e.g. 1.0.0 and 1.0.1 into 1.0.x
   --patch                             Combine equivalent patch versions, e.g. 1.0.0-rc1 and 1.0.0 into 1.0.0
+  --match                      Which kinds of files to match [sha, binary, all]                        [default: "binary"]
   --csv                               Output comma-separated-values
 ``` 
