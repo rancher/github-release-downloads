@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const Sort = require('./sort');
+
 const request = require('request');
 const parser = require('optimist')
   .usage('Get the number of downloads of releases of a GitHub repo\nUsage: $0 <org>[/]<repo>')
@@ -15,7 +17,7 @@ const parser = require('optimist')
   })
   .options('prerelease', {
     boolean: true,
-    alias: ['all','prereleases'],
+    alias: ['prereleases'],
     describe: 'Include prereleases',
   })
   .options('minor', {
@@ -25,6 +27,10 @@ const parser = require('optimist')
   .options('patch', {
     boolean: true,
     describe: 'Combine equivalent patch versions, e.g. 1.0.0-rc1 and 1.0.0 into 1.0.0'
+  })
+  .options('match', {
+    describe: 'Which kinds of files to match [sha, binary, all]: default binary',
+    default: 'binary',
   })
   .options('csv', {
     describe: 'Output comma-separated-values'
@@ -47,15 +53,20 @@ if ( !org || !repo ) {
 }
 
 const data = {};
+const filenames = {};
 
 loop(null, function() {
-  Object.values(data).forEach((obj) => {
+  Sort(Object.keys(data)).forEach((key) => {
+    const obj = data[key];
+
     if ( args.csv ) {
       console.log(`"${obj.tag}",${obj.downloads},${obj.date.replace('Z','').replace('T',' ')}`);
     } else {
       console.log(obj.tag + ": " + obj.downloads + " (" + obj.date + ")");
-      }
+    }
   });
+
+  console.error('Unique filenames matched: ', Object.keys(filenames).join(', '));
 });
 
 function loop(url, cb) {
@@ -97,11 +108,18 @@ function loop(url, cb) {
         data[tag] = entry;
       }
 
+      const match = args.match.toLowerCase();
+
       for ( const asset of row.assets ) {
-        entry.downloads += asset.download_count || 0;
+        if ( args.match === 'all' ||
+            (args.match === 'binary' && asset.content_type === 'application/octet-stream') ||
+            (args.match === 'sha' && asset.name.match(/sha\d+sum/) )
+        ) {
+          filenames[asset.name] = (filenames[asset.name] || 0) + 1;
+          entry.downloads += asset.download_count || 0;
+        }
       }
     }
-
 
     const links = parseLinkHeader(response.headers.link);
     if ( links.next ) {
