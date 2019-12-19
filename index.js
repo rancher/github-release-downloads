@@ -29,7 +29,7 @@ const parser = require('optimist')
     describe: 'Combine equivalent patch versions, e.g. 1.0.0-rc1 and 1.0.0 into 1.0.0'
   })
   .options('match', {
-    describe: 'Which kinds of files to match [sha, binary, all]: default binary',
+    describe: 'Which kinds of files to match [sha, binary, all]',
     default: 'binary',
   })
   .options('csv', {
