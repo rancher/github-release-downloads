@@ -1,6 +1,6 @@
 {
   "name": "github-release-downloads",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": "https://github.com/vincent99/github-release-downloads",
   "author": "Vincent Fiduccia <vincent@rancher.com>",
   "license": "Apache-2.0",

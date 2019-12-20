@@ -103,7 +103,12 @@ function loop(url, cb) {
       }
 
       let entry = data[tag];
-      if ( !entry ) {
+      if ( entry ) {
+        // Use the oldest date for the minor version
+        if ( entry.date > date ) {
+          entry.date = date;
+        }
+      } else {
         entry = { tag, date, downloads: 0 };
         data[tag] = entry;
       }
